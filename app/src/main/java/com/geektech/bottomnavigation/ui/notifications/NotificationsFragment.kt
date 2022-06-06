@@ -16,13 +16,13 @@ import com.geektech.bottomnavigation.databinding.FragmentNotificationsBinding
 
 class NotificationsFragment : BaseFragment<FragmentNotificationsBinding, BaseViewModel>() {
 
-    lateinit var adapter: MemoryAdapter
+    lateinit var adapter: adapter
 
     var info: ArrayList<String> = ArrayList<String>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MemoryAdapter(viewModel.list)
+        adapter = adapter(viewModel.list)
         binding.recycler.adapter = adapter
     }
 
