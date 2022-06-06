@@ -4,42 +4,45 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.geektech.bottomnavigation.base.BaseFragment
+import com.geektech.bottomnavigation.base.BaseViewModel
 import com.geektech.bottomnavigation.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment() {
-
-    private var _binding: FragmentHomeBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+class HomeFragment : BaseFragment<FragmentHomeBinding, BaseViewModel>() {
+    public var list: ArrayList<String> = ArrayList()
+    public var number = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
-
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val button1: Button = binding.btnPlus
-        val button2: Button = binding.btnPlus
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            button1.text = it
-            button2.text = it
-        }
-        return root
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+
+    override fun inflateViewBinding(inflater: LayoutInflater): FragmentHomeBinding {
+        binding = FragmentHomeBinding.inflate(inflater)
+        return binding
+    }
+
+    override fun initViewModel() {
+        super.initViewModel()
+    }
+
+    override fun initListener() {
+        super.initListener()
+
+        binding.btnMinus.setOnClickListener {
+            viewModel.onPlus()
+            viewModel.list.add("+")
+
+        }
+
+        binding.btnPlus.setOnClickListener {
+            viewModel.onMinus()
+            viewModel.list.add("-")
+        }
     }
 }

@@ -6,37 +6,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.geektech.bottomnavigation.base.BaseFragment
+import com.geektech.bottomnavigation.base.BaseViewModel
 import com.geektech.bottomnavigation.databinding.FragmentDashboardBinding
 
-class DashboardFragment : Fragment() {
-
-    private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.text
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+class DashboardFragment : BaseFragment<FragmentDashboardBinding, BaseViewModel>() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun initViewModel() {
+        super.initViewModel()
+    }
+
+    override fun inflateViewBinding(inflater: LayoutInflater): FragmentDashboardBinding {
+        binding = FragmentDashboardBinding.inflate(inflater)
+        return binding
+    }
+
+    override fun initListener() {
+        super.initListener()
+        viewModel.onPlus()
+        viewModel.onMinus()
+        viewModel.counter.observe(this, Observer{ counter->
+            binding.text.text = counter.toString()
+        })
+
     }
 }
