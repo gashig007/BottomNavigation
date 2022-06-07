@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 class BaseViewModel : ViewModel(){
     private var _counter = 0
-    var list = ArrayList<String>()
+    var list: ArrayList<String> = ArrayList()
     val counter = MutableLiveData<Int>()
 
     fun onPlus() {
